@@ -5,4 +5,5 @@ For use with json-schema: https://github.com/hoxworth/json-schema
 
 Requires sinatra and json-schema
 
-Run with "ruby tester.rb".
+Run with "ruby tester.rb", then go to http://localhost:4567 to quickly and
+easily test your schema against sample data.
