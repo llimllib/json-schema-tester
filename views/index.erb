@@ -1,0 +1,50 @@
+<html><head><title>JSON Schema Tester</title>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
+<script src="json2.js"></script>
+<script>
+function onSuccess(data, textStatus, jqXHR) {
+  $("#output").val("Valid!");
+}
+
+function onError(data, textStatus, errorThrown) {
+  $("#output").val(JSON.parse(data.responseText)["error"]);
+}
+
+$(function() {
+  $("#validate").click(function() {
+    try {
+      var schema = JSON.parse($("#schema").val());
+    } catch (e) {
+      $("#output").val("Invalid JSON in your schema: " + e.type);
+      return;
+    }
+
+    try {
+      var sample = JSON.parse($("#sample").val());
+    } catch (e) {
+      $("#output").val("Invalid JSON in your sample: " + e.type);
+      return;
+    }
+
+    $.ajax({
+      url: '/test',
+      dataType: 'json',
+      type: 'POST',
+      data: JSON.stringify({"schema": schema, "sample": sample}),
+      success: onSuccess,
+      error: onError
+    });
+  });
+});
+</script>
+</head>
+<body>
+Schema:<p><textarea rows=20 cols=100 id="schema"></textarea>
+<p>
+Sample JSON:<p><textarea rows=20 cols=100 id="sample"></textarea>
+<p>
+<input type="submit" value="validate" id="validate">
+<p>
+Result:<p><textarea rows=20 cols=100 id="output"></textarea>
+</body>
+</html>
