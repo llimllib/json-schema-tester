@@ -1,0 +1,8 @@
+JSON SCHEMA TESTER (imagine that this is an ASCII banner)
+---------------------------------------------------------
+
+For use with json-schema: https://github.com/hoxworth/json-schema
+
+Requires sinatra and json-schema
+
+Run with "ruby tester.rb".
