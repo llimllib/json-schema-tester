@@ -11,6 +11,7 @@ post '/test' do
   begin
     json = JSON::parse request.body.read
   rescue JSON::ParserError => err
+    status 400
     return {"error" => "Invalid JSON"}.to_json
   end
 
