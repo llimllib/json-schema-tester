@@ -2,10 +2,21 @@
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
 <script src="json2.js"></script>
 <script src="jsl.parser.js"></script>
+
+<!-- codemirror -->
+<script src="codemirror/lib/codemirror.js"></script>
+<link rel="stylesheet" href="codemirror/lib/codemirror.css">
+<script src="codemirror/mode/javascript/javascript.js"></script>
+<link rel="stylesheet" href="codemirror/theme/default.css">
+
 <style>
 textarea {
-  border:1px solid #999999;
+border:1px solid #999999;
   font-family:Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New, monospace;
+}
+
+.CodeMirror {
+  border:1px solid #999999;
 }
 </style>
 <script>
@@ -47,6 +58,18 @@ function validate() {
 }
 
 $(function() {
+  var opts = {
+    mode: "javascript",
+    tabMode: "shift",
+    enterMode: "keep",
+    json: true,
+    lineNumbers: true,
+    matchBrackets: true,
+    electricChars: false
+  }
+  var schema = CodeMirror.fromTextArea($("#schema")[0], opts);
+  var sample = CodeMirror.fromTextArea($("#sample")[0], opts);
+
   $("#validate").click(function() {
     //clear the output box
     $("output").val("");
