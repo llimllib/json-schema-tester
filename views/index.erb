@@ -12,6 +12,9 @@ function onError(data, textStatus, errorThrown) {
 
 $(function() {
   $("#validate").click(function() {
+    //clear the output box
+    $("output").val("");
+
     try {
       var schema = JSON.parse($("#schema").val());
     } catch (e) {
