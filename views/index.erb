@@ -17,37 +17,42 @@ function onError(data, textStatus, errorThrown) {
   $("#output").val(JSON.parse(data.responseText)["error"]);
 }
 
+function validate() {
+  try {
+    jsl.parser.parse($("#schema").val());
+  } catch (e) {
+    $("#output").val("Invalid JSON in your schema:\n" + e.message);
+    return;
+  }
+
+  try {
+    jsl.parser.parse($("#sample").val());
+  } catch (e) {
+    $("#output").val("Invalid JSON in your sample:\n" + e.message);
+    return;
+  }
+
+  //assume that if they pass jslint, they'll pass json2 parsing
+  var schema = JSON.parse($("#schema").val());
+  var sample = JSON.parse($("#sample").val());
+
+  $.ajax({
+    url: '/test',
+    dataType: 'json',
+    type: 'POST',
+    data: JSON.stringify({"schema": schema, "sample": sample}),
+    success: onSuccess,
+    error: onError
+  });
+}
+
 $(function() {
   $("#validate").click(function() {
     //clear the output box
     $("output").val("");
-
-    try {
-      jsl.parser.parse($("#schema").val());
-    } catch (e) {
-      $("#output").val("Invalid JSON in your schema:\n" + e.message);
-      return;
-    }
-
-    try {
-      jsl.parser.parse($("#sample").val());
-    } catch (e) {
-      $("#output").val("Invalid JSON in your sample:\n" + e.message);
-      return;
-    }
-
-    //assume that if they pass jslint, they'll pass json2 parsing
-    var schema = JSON.parse($("#schema").val());
-    var sample = JSON.parse($("#sample").val());
-
-    $.ajax({
-      url: '/test',
-      dataType: 'json',
-      type: 'POST',
-      data: JSON.stringify({"schema": schema, "sample": sample}),
-      success: onSuccess,
-      error: onError
-    });
+    
+    //and run the validate function once that's clear
+    setTimeout(validate, 4);
   });
 });
 </script>
