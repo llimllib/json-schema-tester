@@ -26,6 +26,8 @@ post '/test' do
     #it's a filename, and go try and load it. Since it probably doesn't exist,
     #json-schema will throw an Errno::ENOENT
     err = "Invalid Schema JSON"
+  rescue => err
+    err = "Unexpected server error:\n #{err.class}: #{err.message}\n #{err.backtrace.join('\n')}"
   end
 
   if err
