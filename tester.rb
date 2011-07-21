@@ -1,6 +1,7 @@
 require 'rubygems'
 require 'sinatra'
 require 'erb'
+require 'json'
 require 'json-schema'
 
 get '/' do
