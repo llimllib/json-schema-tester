@@ -20,6 +20,8 @@ border:1px solid #999999;
 }
 </style>
 <script>
+var schemaEditor, sampleEditor;
+
 function onSuccess(data, textStatus, jqXHR) {
   $("#output").val("Valid!");
 }
@@ -29,23 +31,26 @@ function onError(data, textStatus, errorThrown) {
 }
 
 function validate() {
+  var schematxt = schemaEditor.getValue();
+  var sampletxt = schemaEditor.getValue();
+
   try {
-    jsl.parser.parse($("#schema").val());
+    jsl.parser.parse(schematxt);
   } catch (e) {
     $("#output").val("Invalid JSON in your schema:\n" + e.message);
     return;
   }
 
   try {
-    jsl.parser.parse($("#sample").val());
+    jsl.parser.parse(sampletxt);
   } catch (e) {
     $("#output").val("Invalid JSON in your sample:\n" + e.message);
     return;
   }
 
   //assume that if they pass jslint, they'll pass json2 parsing
-  var schema = JSON.parse($("#schema").val());
-  var sample = JSON.parse($("#sample").val());
+  var schema = JSON.parse(schematxt);
+  var sample = JSON.parse(sampletxt);
 
   $.ajax({
     url: '/test',
@@ -67,8 +72,8 @@ $(function() {
     matchBrackets: true,
     electricChars: false
   }
-  var schema = CodeMirror.fromTextArea($("#schema")[0], opts);
-  var sample = CodeMirror.fromTextArea($("#sample")[0], opts);
+  schemaEditor = CodeMirror.fromTextArea($("#schema")[0], opts);
+  sampleEditor = CodeMirror.fromTextArea($("#sample")[0], opts);
 
   $("#validate").click(function() {
     //clear the output box
