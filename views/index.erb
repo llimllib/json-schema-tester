@@ -32,7 +32,7 @@ function onError(data, textStatus, errorThrown) {
 
 function validate() {
   var schematxt = schemaEditor.getValue();
-  var sampletxt = schemaEditor.getValue();
+  var sampletxt = sampleEditor.getValue();
 
   try {
     jsl.parser.parse(schematxt);
@@ -77,7 +77,7 @@ $(function() {
 
   $("#validate").click(function() {
     //clear the output box
-    $("output").val("");
+    $("#output").val("");
     
     //and run the validate function once that's clear
     setTimeout(validate, 4);
