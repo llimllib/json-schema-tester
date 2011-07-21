@@ -21,7 +21,7 @@ post '/test' do
 
   begin
     JSON::Validator.validate2(schema, sample)
-  rescue JSON::ValidationError => err
+  rescue JSON::Schema::ValidationError => err
   rescue Errno::ENOENT => err
     #If the first argument to validate2 is invalid json, the validator will assume
     #it's a filename, and go try and load it. Since it probably doesn't exist,
